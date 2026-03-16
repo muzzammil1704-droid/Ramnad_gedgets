@@ -1,6 +1,26 @@
-this.products = [
-  { name: "Automatic Watch", price: 3200, original: 5000, category: "smartwatch", image: "images/automatic-watch.jpg", desc: "Super quality ⌚" },
-  { name: "Trigger Gaming Earbuds", price: 850, original: 999, category: "earbuds", image: "images/trigger-earbuds.jpg", desc: "Premium quality 🚀" },
-  { name: "Gen 9 Watch", price: 850, original: 1200, category: "smartwatch", image: "images/gen9-watch.jpg", desc: "Super quality women's watch 🔥⌚" }
-];
-this.renderProducts();
+[
+  {
+    "name": "Automatic Watch",
+    "price": 3200,
+    "original": 5000,
+    "category": "smartwatch",
+    "image": "https://via.placeholder.com/400?text=Watch",
+    "desc": "Super quality ⌚"
+  },
+  {
+    "name": "Trigger Gaming Earbuds",
+    "price": 850,
+    "original": 999,
+    "category": "earbuds",
+    "image": "https://via.placeholder.com/400?text=Earbuds",
+    "desc": "Premium quality 🚀"
+  },
+  {
+    "name": "Gen 9 Watch",
+    "price": 850,
+    "original": 1200,
+    "category": "smartwatch",
+    "image": "https://via.placeholder.com/400?text=Gen9",
+    "desc": "Super quality women's watch 🔥⌚"
+  }
+]
