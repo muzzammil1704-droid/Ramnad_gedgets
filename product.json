@@ -1,26 +1,10 @@
 [
   {
-    "name": "Automatic Watch",
-    "price": 3200,
-    "original": 5000,
-    "category": "smartwatch",
-    "image": "https://via.placeholder.com/400?text=Watch",
-    "desc": "Super quality ⌚"
-  },
-  {
-    "name": "Trigger Gaming Earbuds",
-    "price": 850,
-    "original": 999,
+    "name": "Combo offer",
+    "price": 700,
+    "original": 850,
     "category": "earbuds",
-    "image": "https://via.placeholder.com/400?text=Earbuds",
-    "desc": "Premium quality 🚀"
-  },
-  {
-    "name": "Gen 9 Watch",
-    "price": 850,
-    "original": 1200,
-    "category": "smartwatch",
-    "image": "https://via.placeholder.com/400?text=Gen9",
-    "desc": "Super quality women's watch 🔥⌚"
+    "desc": "Copy Realme T110 earbuds and relame wireless anc 5 neckband 💎",
+    "image": "https://ik.imagekit.io/e9w05dj10/IMG-20250903-WA0392.jpg?updatedAt=1773617647390"
   }
 ]
