@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+
+html_content = '''<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -21,15 +22,13 @@
                             card: '#1e293b',
                             accent: '#6366f1',
                             gold: '#fbbf24',
-                            success: '#10b981',
-                            pink: '#ec4899'
+                            success: '#10b981'
                         }
                     },
                     animation: {
                         'fade-in': 'fadeIn 0.5s ease-out',
                         'slide-up': 'slideUp 0.5s ease-out',
                         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'bounce-in': 'bounceIn 0.5s ease-out',
                     },
                     keyframes: {
                         fadeIn: {
@@ -39,12 +38,6 @@
                         slideUp: {
                             '0%': { transform: 'translateY(20px)', opacity: '0' },
                             '100%': { transform: 'translateY(0)', opacity: '1' },
-                        },
-                        bounceIn: {
-                            '0%': { transform: 'scale(0.3)', opacity: '0' },
-                            '50%': { transform: 'scale(1.05)' },
-                            '70%': { transform: 'scale(0.9)' },
-                            '100%': { transform: 'scale(1)', opacity: '1' },
                         }
                     }
                 }
@@ -66,10 +59,6 @@
         .product-card:hover .product-image {
             transform: scale(1.05);
         }
-        .product-card:hover .share-btn {
-            opacity: 1;
-            transform: translateY(0);
-        }
         .custom-scroll::-webkit-scrollbar {
             width: 6px;
         }
@@ -88,11 +77,6 @@
         @keyframes loading {
             0% { background-position: 200% 0; }
             100% { background-position: -200% 0; }
-        }
-        .share-btn {
-            opacity: 0;
-            transform: translateY(-10px);
-            transition: all 0.3s ease;
         }
     </style>
 </head>
@@ -142,6 +126,7 @@
                 Discover the latest gadgets curated for the modern lifestyle. Prices updated in real-time.
             </p>
             
+            <!-- Category Pills -->
             <div class="flex flex-wrap justify-center gap-3 mb-8">
                 <button onclick="app.filterCategory('all')" class="filter-btn active px-6 py-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-brand-accent/50 transition-all text-sm font-medium text-white" data-cat="all">All</button>
                 <button onclick="app.filterCategory('earbuds')" class="filter-btn px-6 py-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-brand-accent/50 transition-all text-sm font-medium text-gray-400 hover:text-white" data-cat="earbuds">Earbuds</button>
@@ -192,7 +177,6 @@
 
         <!-- Product Grid -->
         <div id="product-grid" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-slide-up">
-            <!-- Products injected via JS -->
         </div>
 
         <!-- Empty State -->
@@ -242,63 +226,9 @@
     <!-- Overlay -->
     <div id="overlay" onclick="app.closeAllDrawers()" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300"></div>
 
-    <!-- Share Product Modal -->
-    <div id="share-modal" class="fixed inset-0 z-[80] hidden flex items-center justify-center px-4">
-        <div class="glass-panel w-full max-w-md rounded-2xl p-6 shadow-2xl transform scale-95 opacity-0 transition-all duration-300" id="share-content">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-bold text-white">Share Product</h3>
-                <button onclick="app.closeShareModal()" class="text-gray-400 hover:text-white">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            
-            <div id="share-product-preview" class="flex items-center gap-4 mb-6 p-4 bg-white/5 rounded-xl">
-                <!-- Product preview injected here -->
-            </div>
-
-            <!-- 4 Share Options -->
-            <div class="grid grid-cols-4 gap-4 mb-6">
-                <button onclick="app.shareVia('whatsapp')" class="flex flex-col items-center gap-2 group">
-                    <div class="w-14 h-14 rounded-full bg-green-500/20 border border-green-500/30 flex items-center justify-center text-green-400 group-hover:bg-green-500 group-hover:text-white transition-all">
-                        <i class="fab fa-whatsapp text-2xl"></i>
-                    </div>
-                    <span class="text-xs text-gray-400">WhatsApp</span>
-                </button>
-                
-                <button onclick="app.shareVia('instagram')" class="flex flex-col items-center gap-2 group">
-                    <div class="w-14 h-14 rounded-full bg-brand-pink/20 border border-brand-pink/30 flex items-center justify-center text-brand-pink group-hover:bg-brand-pink group-hover:text-white transition-all">
-                        <i class="fab fa-instagram text-2xl"></i>
-                    </div>
-                    <span class="text-xs text-gray-400">Instagram</span>
-                </button>
-                
-                <button onclick="app.shareVia('copy')" class="flex flex-col items-center gap-2 group">
-                    <div class="w-14 h-14 rounded-full bg-brand-accent/20 border border-brand-accent/30 flex items-center justify-center text-brand-accent group-hover:bg-brand-accent group-hover:text-white transition-all">
-                        <i class="fas fa-link text-2xl"></i>
-                    </div>
-                    <span class="text-xs text-gray-400">Copy Link</span>
-                </button>
-                
-                <button onclick="app.shareVia('native')" class="flex flex-col items-center gap-2 group">
-                    <div class="w-14 h-14 rounded-full bg-brand-gold/20 border border-brand-gold/30 flex items-center justify-center text-brand-gold group-hover:bg-brand-gold group-hover:text-brand-dark transition-all">
-                        <i class="fas fa-share-alt text-2xl"></i>
-                    </div>
-                    <span class="text-xs text-gray-400">More</span>
-                </button>
-            </div>
-
-            <div class="bg-brand-dark/50 rounded-lg p-3 flex items-center gap-3 border border-white/10">
-                <input type="text" id="share-link-input" readonly class="flex-1 bg-transparent text-sm text-gray-400 outline-none" value="">
-                <button onclick="app.copyLink()" class="px-4 py-2 bg-brand-accent hover:bg-brand-accent/80 text-white text-sm font-medium rounded-lg transition-colors">
-                    Copy
-                </button>
-            </div>
-        </div>
-    </div>
-
     <!-- Checkout Modal -->
-    <div id="checkout-modal" class="fixed inset-0 z-[70] hidden flex items-center justify-center px-4 py-8 overflow-y-auto">
-        <div class="glass-panel w-full max-w-lg rounded-2xl p-6 sm:p-8 shadow-2xl transform scale-95 opacity-0 transition-all duration-300 my-auto" id="checkout-content">
+    <div id="checkout-modal" class="fixed inset-0 z-[70] hidden flex items-center justify-center px-4">
+        <div class="glass-panel w-full max-w-md rounded-2xl p-6 sm:p-8 shadow-2xl transform scale-95 opacity-0 transition-all duration-300" id="checkout-content">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-2xl font-bold text-white">Checkout</h3>
                 <button onclick="app.closeCheckout()" class="text-gray-400 hover:text-white">
@@ -307,49 +237,30 @@
             </div>
             
             <form onsubmit="app.submitOrder(event)" class="space-y-4">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="col-span-2">
                         <label class="block text-xs font-medium text-gray-400 mb-1">Full Name</label>
-                        <input type="text" name="fullname" required class="w-full bg-brand-dark/50 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:border-brand-accent focus:outline-none" placeholder="John Doe">
+                        <input type="text" required class="w-full bg-brand-dark/50 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:border-brand-accent focus:outline-none">
+                    </div>
+                    <div class="col-span-2">
+                        <label class="block text-xs font-medium text-gray-400 mb-1">Mobile Number</label>
+                        <input type="tel" required class="w-full bg-brand-dark/50 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:border-brand-accent focus:outline-none">
+                    </div>
+                    <div class="col-span-2">
+                        <label class="block text-xs font-medium text-gray-400 mb-1">Delivery Address</label>
+                        <textarea required rows="2" class="w-full bg-brand-dark/50 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:border-brand-accent focus:outline-none"></textarea>
                     </div>
                     <div>
-                        <label class="block text-xs font-medium text-gray-400 mb-1">Mobile Number</label>
-                        <input type="tel" name="mobile" required class="w-full bg-brand-dark/50 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:border-brand-accent focus:outline-none" placeholder="+91 9876543210">
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-medium text-gray-400 mb-1">Street Address</label>
-                    <textarea name="address" required rows="2" class="w-full bg-brand-dark/50 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:border-brand-accent focus:outline-none" placeholder="123, Main Street"></textarea>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-medium text-brand-gold mb-1">
-                        <i class="fas fa-landmark mr-1"></i> Landmark
-                    </label>
-                    <input type="text" name="landmark" class="w-full bg-brand-dark/50 border border-brand-gold/30 rounded-lg px-4 py-2.5 text-white focus:border-brand-gold focus:outline-none" placeholder="Near Temple / School / Park">
-                </div>
-
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                    <div class="sm:col-span-1">
                         <label class="block text-xs font-medium text-gray-400 mb-1">City</label>
-                        <input type="text" name="city" required class="w-full bg-brand-dark/50 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:border-brand-accent focus:outline-none" placeholder="City">
+                        <input type="text" required class="w-full bg-brand-dark/50 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:border-brand-accent focus:outline-none">
                     </div>
-                    <div class="sm:col-span-1">
-                        <label class="block text-xs font-medium text-brand-gold mb-1">District *</label>
-                        <input type="text" name="district" required class="w-full bg-brand-dark/50 border border-brand-gold/30 rounded-lg px-4 py-2.5 text-white focus:border-brand-gold focus:outline-none" placeholder="District">
-                    </div>
-                    <div class="sm:col-span-1">
-                        <label class="block text-xs font-medium text-gray-400 mb-1">State</label>
-                        <input type="text" name="state" required class="w-full bg-brand-dark/50 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:border-brand-accent focus:outline-none" placeholder="State">
-                    </div>
-                    <div class="sm:col-span-1">
+                    <div>
                         <label class="block text-xs font-medium text-gray-400 mb-1">Pincode</label>
-                        <input type="text" name="pincode" required class="w-full bg-brand-dark/50 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:border-brand-accent focus:outline-none" placeholder="600001">
+                        <input type="text" required class="w-full bg-brand-dark/50 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:border-brand-accent focus:outline-none">
                     </div>
                 </div>
 
-                <div class="pt-4 border-t border-white/10 mt-6">
+                <div class="pt-4 border-t border-white/10 mt-4">
                     <div class="flex justify-between text-sm mb-2">
                         <span class="text-gray-400">Items</span>
                         <span class="text-white" id="checkout-count">0 items</span>
@@ -368,19 +279,19 @@
     </div>
 
     <!-- Toast Notification -->
-    <div id="toast" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-brand-card border border-white/10 text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-3 translate-y-20 opacity-0 transition-all duration-300 z-[90]">
+    <div id="toast" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-brand-card border border-white/10 text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-3 translate-y-20 opacity-0 transition-all duration-300 z-[80]">
         <i class="fas fa-check-circle text-brand-success"></i>
         <span id="toast-message">Action successful</span>
     </div>
 
     <script>
         const app = {
+            // 🔗 GITHUB PAGES URL - Change this to your actual URL
             DATA_URL: "https://muzzammil1704-droid.github.io/Ramnad_gedgets/products.json",
             
             products: [],
             cart: [],
             currentFilter: 'all',
-            currentShareProduct: null,
 
             async init() {
                 await this.fetchProducts();
@@ -446,23 +357,16 @@
                 emptyState.classList.add('hidden');
                 grid.classList.remove('hidden');
                 
-                grid.innerHTML = filtered.map(product => `
-                    <div class="product-card group glass-panel rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-brand-accent/10 transition-all duration-300 border border-white/5 hover:border-brand-accent/30 flex flex-col relative">
+                grid.innerHTML = filtered.map(product => {
+                    const discount = Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100);
+                    return `
+                    <div class="product-card group glass-panel rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-brand-accent/10 transition-all duration-300 border border-white/5 hover:border-brand-accent/30 flex flex-col">
                         <div class="relative h-64 overflow-hidden bg-gray-800">
-                            <!-- Share Button (Top Left) -->
-                            <button onclick="app.openShareModal(${product.id})" class="share-btn absolute top-3 left-3 z-10 w-10 h-10 bg-brand-dark/80 backdrop-blur text-white rounded-full flex items-center justify-center border border-white/20 hover:bg-brand-accent hover:border-brand-accent transition-all">
-                                <i class="fas fa-share-alt text-sm"></i>
-                            </button>
-                            
-                            <!-- Discount Badge (Top Right) -->
-                            <div class="absolute top-3 right-3 z-10 bg-brand-dark/80 backdrop-blur text-xs font-bold text-white px-2 py-1 rounded border border-white/10">
-                                -${Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%
-                            </div>
-                            
                             <img src="${product.image}" alt="${product.name}" class="product-image w-full h-full object-cover transition-transform duration-500" loading="lazy" onerror="this.src='https://via.placeholder.com/400x400?text=Image+Error'">
-                            
-                            <!-- Add to Cart Button (Bottom Right) -->
-                            <button onclick="app.addToCart(${product.id})" class="absolute bottom-3 right-3 w-10 h-10 bg-brand-accent text-white rounded-full flex items-center justify-center shadow-lg transform translate-y-14 group-hover:translate-y-0 transition-transform duration-300 hover:bg-brand-accent/90 z-10">
+                            <div class="absolute top-3 right-3 bg-brand-dark/80 backdrop-blur text-xs font-bold text-white px-2 py-1 rounded border border-white/10">
+                                -${discount}%
+                            </div>
+                            <button onclick="app.addToCart(${product.id})" class="absolute bottom-3 right-3 w-10 h-10 bg-brand-accent text-white rounded-full flex items-center justify-center shadow-lg transform translate-y-14 group-hover:translate-y-0 transition-transform duration-300 hover:bg-brand-accent/90">
                                 <i class="fas fa-plus"></i>
                             </button>
                         </div>
@@ -478,110 +382,7 @@
                             </div>
                         </div>
                     </div>
-                `).join('');
-            },
-
-            // Share Modal Functions
-            openShareModal(productId) {
-                const product = this.products.find(p => p.id === productId);
-                if (!product) return;
-                
-                this.currentShareProduct = product;
-                
-                const modal = document.getElementById('share-modal');
-                const content = document.getElementById('share-content');
-                const preview = document.getElementById('share-product-preview');
-                const linkInput = document.getElementById('share-link-input');
-                
-                // Set product preview
-                preview.innerHTML = `
-                    <img src="${product.image}" class="w-16 h-16 object-cover rounded-lg" onerror="this.src='https://via.placeholder.com/100?text=No+Image'">
-                    <div class="flex-1 min-w-0">
-                        <h4 class="text-white font-semibold truncate">${product.name}</h4>
-                        <p class="text-brand-gold font-bold">₹${product.price}</p>
-                    </div>
-                `;
-                
-                // Set share link (using current URL as base)
-                const shareUrl = `${window.location.origin}?product=${product.id}`;
-                linkInput.value = shareUrl;
-                
-                modal.classList.remove('hidden');
-                setTimeout(() => {
-                    content.classList.remove('scale-95', 'opacity-0');
-                    content.classList.add('scale-100', 'opacity-100', 'animate-bounce-in');
-                }, 10);
-            },
-
-            closeShareModal() {
-                const modal = document.getElementById('share-modal');
-                const content = document.getElementById('share-content');
-                
-                content.classList.remove('scale-100', 'opacity-100', 'animate-bounce-in');
-                content.classList.add('scale-95', 'opacity-0');
-                
-                setTimeout(() => {
-                    modal.classList.add('hidden');
-                    this.currentShareProduct = null;
-                }, 300);
-            },
-
-            shareVia(platform) {
-                if (!this.currentShareProduct) return;
-                
-                const product = this.currentShareProduct;
-                const shareUrl = `${window.location.origin}?product=${product.id}`;
-                const text = `Check out ${product.name} at RAMNADGADGETS for just ₹${product.price}!`;
-                
-                switch(platform) {
-                    case 'whatsapp':
-                        window.open(`https://wa.me/?text=${encodeURIComponent(text + ' ' + shareUrl)}`, '_blank');
-                        this.showToast('Sharing to WhatsApp...');
-                        break;
-                        
-                    case 'instagram':
-                        // Instagram doesn't support direct URL sharing, copy to clipboard instead
-                        this.copyToClipboard(shareUrl);
-                        this.showToast('Link copied! Paste in Instagram');
-                        break;
-                        
-                    case 'copy':
-                        this.copyToClipboard(shareUrl);
-                        this.showToast('Link copied to clipboard!');
-                        break;
-                        
-                    case 'native':
-                        if (navigator.share) {
-                            navigator.share({
-                                title: product.name,
-                                text: text,
-                                url: shareUrl
-                            }).catch(err => console.log('Share cancelled'));
-                        } else {
-                            this.copyToClipboard(shareUrl);
-                            this.showToast('Link copied! (Web Share not supported)');
-                        }
-                        break;
-                }
-            },
-
-            copyLink() {
-                const linkInput = document.getElementById('share-link-input');
-                this.copyToClipboard(linkInput.value);
-                this.showToast('Link copied to clipboard!');
-            },
-
-            copyToClipboard(text) {
-                if (navigator.clipboard) {
-                    navigator.clipboard.writeText(text);
-                } else {
-                    const textarea = document.createElement('textarea');
-                    textarea.value = text;
-                    document.body.appendChild(textarea);
-                    textarea.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(textarea);
-                }
+                `}).join('');
             },
 
             filterCategory(category) {
@@ -734,26 +535,16 @@
 
             submitOrder(e) {
                 e.preventDefault();
-                const formData = new FormData(e.target);
                 
                 let message = `*New Order from RAMNADGADGETS*%0A%0A`;
-                message += `*Customer Details:*%0A`;
-                message += `Name: ${formData.get('fullname')}%0A`;
-                message += `Mobile: ${formData.get('mobile')}%0A`;
-                message += `Address: ${formData.get('address')}%0A`;
-                message += `Landmark: ${formData.get('landmark') || 'N/A'}%0A`;
-                message += `City: ${formData.get('city')}%0A`;
-                message += `District: ${formData.get('district')}%0A`;
-                message += `State: ${formData.get('state')}%0A`;
-                message += `Pincode: ${formData.get('pincode')}%0A%0A`;
+                message += `*Items:*%0A`;
                 
-                message += `*Order Items:*%0A`;
                 this.cart.forEach(item => {
-                    message += `- ${item.name} (Qty: ${item.quantity}) = ₹${item.price * item.quantity}%0A`;
+                    message += `- ${item.name} (Qty: ${item.quantity}) - ₹${item.price * item.quantity}%0A`;
                 });
                 
                 const total = this.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-                message += `%0A*Total Amount: ₹${total}*%0A%0A`;
+                message += `%0A*Total: ₹${total}*%0A%0A`;
                 message += `Please confirm my order.`;
 
                 window.open(`https://wa.me/919876543210?text=${message}`, '_blank');
@@ -762,13 +553,11 @@
                 this.cart = [];
                 this.updateCartUI();
                 this.showToast('Order placed! Redirecting...');
-                e.target.reset();
             },
 
             closeAllDrawers() {
                 document.getElementById('cart-sidebar').classList.add('translate-x-full');
                 this.closeCheckout();
-                this.closeShareModal();
             },
 
             showToast(msg) {
@@ -790,19 +579,15 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             app.init();
-            
-            // Check for shared product in URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const productId = urlParams.get('product');
-            if (productId) {
-                setTimeout(() => {
-                    const product = app.products.find(p => p.id == productId);
-                    if (product) {
-                        app.openShareModal(parseInt(productId));
-                    }
-                }, 1000);
-            }
         });
     </script>
 </body>
-</html>
+</html>'''
+
+# Save to file
+with open('/mnt/kimi/output/ramnadgadgets_store.html', 'w', encoding='utf-8') as f:
+    f.write(html_content)
+
+print("✅ HTML file created successfully!")
+print(f"📁 Location: /mnt/kimi/output/ramnadgadgets_store.html")
+print(f"📊 File size: {len(html_content)} characters")
