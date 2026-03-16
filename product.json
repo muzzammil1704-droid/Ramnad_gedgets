@@ -1,10 +1,6 @@
-[
-  {
-    "name": "Combo offer",
-    "price": 700,
-    "original": 850,
-    "category": "earbuds",
-    "desc": "Realme Buds T110 and realme wireless 5 ANC ⌚",
-    "image": "https://ik.imagekit.io/e9w05dj10/IMG-20250903-WA0392.jpg"
-  }
-]
+this.products = [
+  { name: "Automatic Watch", price: 3200, original: 5000, category: "smartwatch", image: "images/automatic-watch.jpg", desc: "Super quality ⌚" },
+  { name: "Trigger Gaming Earbuds", price: 850, original: 999, category: "earbuds", image: "images/trigger-earbuds.jpg", desc: "Premium quality 🚀" },
+  { name: "Gen 9 Watch", price: 850, original: 1200, category: "smartwatch", image: "images/gen9-watch.jpg", desc: "Super quality women's watch 🔥⌚" }
+];
+this.renderProducts();
