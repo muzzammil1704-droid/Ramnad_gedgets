@@ -1,4 +1,9 @@
- <!DOCTYPE html>
+I've updated your HTML to link to the external style.css file. The large <style> block has been removed and replaced with a clean <link> tag.
+
+📄 Final HTML (with style.css link)
+
+```html
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,6 +12,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- External Custom CSS -->
+    <link href="style.css" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
@@ -30,276 +37,6 @@
             }
         }
     </script>
-    <style>
-        body {
-            background-color: #f8fafc;
-            color: #1e293b;
-            font-family: 'Inter', sans-serif;
-        }
-        
-        .product-card {
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            border: 1px solid #e2e8f0;
-            cursor: pointer;
-            position: relative;
-        }
-        .product-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.15);
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px -5px rgba(59, 130, 246, 0.4);
-        }
-        
-        .btn-secondary {
-            background: white;
-            color: #1e293b;
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-weight: 600;
-            border: 2px solid #e2e8f0;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .modal-overlay {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px);
-        }
-        
-        .modal-content {
-            background: white;
-            border-radius: 24px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        }
-        
-        .form-input {
-            width: 100%;
-            padding: 14px 18px;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            font-size: 15px;
-            transition: all 0.3s ease;
-            background: white;
-        }
-        .form-input:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
-        }
-        
-        .discount-badge {
-            background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-        }
-        
-        .whatsapp-btn {
-            background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
-            color: white;
-        }
-        
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #f1f5f9; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        
-        .toast {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            background: #10b981;
-            color: white;
-            padding: 16px 24px;
-            border-radius: 12px;
-            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.3);
-            transform: translateY(100px);
-            opacity: 0;
-            transition: all 0.4s ease;
-            z-index: 1000;
-        }
-        .toast.show {
-            transform: translateY(0);
-            opacity: 1;
-        }
-        
-        .step {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            transition: all 0.3s ease;
-        }
-        .step.active { background: #3b82f6; color: white; }
-        .step.completed { background: #10b981; color: white; }
-        .step.pending { background: #e2e8f0; color: #64748b; }
-        
-        .nav-link {
-            padding: 8px 16px;
-            border-radius: 8px;
-            transition: all 0.2s ease;
-            color: #64748b;
-        }
-        .nav-link:hover {
-            background: #f1f5f9;
-            color: #3b82f6;
-        }
-
-        .add-to-cart-btn {
-            position: absolute;
-            bottom: 16px;
-            left: 16px;
-            right: 16px;
-            background: white;
-            color: #1e293b;
-            padding: 12px;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 14px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transform: translateY(20px);
-            opacity: 0;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            border: none;
-            cursor: pointer;
-        }
-        .add-to-cart-btn:hover {
-            background: #3b82f6;
-            color: white;
-        }
-        .product-card:hover .add-to-cart-btn {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        /* ===== 3D ICON CATEGORY BUTTONS ===== */
-        .cat-btn {
-            display: inline-flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            padding: 14px 20px;
-            background: white;
-            border: 2px solid #e2e8f0;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 13px;
-            color: #475569;
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            cursor: pointer;
-            min-width: 90px;
-            position: relative;
-            overflow: hidden;
-        }
-        .cat-btn::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, #3b82f6, #2563eb);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            border-radius: 18px;
-        }
-        .cat-btn:hover {
-            border-color: #3b82f6;
-            transform: translateY(-4px);
-            box-shadow: 0 12px 30px -5px rgba(59, 130, 246, 0.25);
-        }
-        .cat-btn.active {
-            border-color: #2563eb;
-            background: linear-gradient(135deg, #3b82f6, #2563eb);
-            color: white;
-            box-shadow: 0 12px 30px -5px rgba(59, 130, 246, 0.4);
-        }
-        .cat-btn .icon-3d {
-            width: 52px;
-            height: 52px;
-            object-fit: contain;
-            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            position: relative;
-            z-index: 1;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
-        }
-        .cat-btn:hover .icon-3d {
-            transform: scale(1.2) rotate(-5deg) translateY(-3px);
-        }
-        .cat-btn.active .icon-3d {
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3)) brightness(1.1);
-        }
-        .cat-btn .cat-label {
-            position: relative;
-            z-index: 1;
-            white-space: nowrap;
-        }
-
-        /* Floating Discount Badge */
-        .discount-float {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 800;
-            z-index: 10;
-            box-shadow: 0 10px 15px -3px rgba(236, 72, 153, 0.4);
-            animation: float 3s ease-in-out infinite;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-5px); }
-        }
-
-        .product-image-container {
-            position: relative;
-            aspect-ratio: 1;
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-            overflow: hidden;
-        }
-        
-        .header-icon { animation: pulse 2s ease-in-out infinite; }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        /* Scroll animation for category row */
-        .cat-scroll {
-            scrollbar-width: none;
-        }
-        .cat-scroll::-webkit-scrollbar {
-            display: none;
-        }
-    </style>
 </head>
 <body class="antialiased min-h-screen">
 
@@ -365,7 +102,6 @@
 
                     <!-- ALL -->
                     <button onclick="app.filterCategory('all')" class="cat-btn active" id="btn-all">
-                        <!-- 3D Grid icon from the uploaded image (row 1 - using a grid/all icon approximation) -->
                         <svg class="icon-3d" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <defs>
                             <linearGradient id="g-all-top" x1="10" y1="10" x2="70" y2="70" gradientUnits="userSpaceOnUse">
@@ -377,17 +113,13 @@
                               <stop offset="100%" stop-color="#1d4ed8"/>
                             </linearGradient>
                           </defs>
-                          <!-- Big 3D box with grid lines -->
                           <rect x="12" y="12" width="56" height="56" rx="10" fill="url(#g-all-top)"/>
-                          <!-- Grid lines -->
                           <line x1="12" y1="38" x2="68" y2="38" stroke="white" stroke-width="2.5" stroke-opacity="0.5"/>
                           <line x1="40" y1="12" x2="40" y2="68" stroke="white" stroke-width="2.5" stroke-opacity="0.5"/>
-                          <!-- Inner squares with glow -->
                           <rect x="17" y="17" width="20" height="18" rx="4" fill="white" fill-opacity="0.25"/>
                           <rect x="43" y="17" width="20" height="18" rx="4" fill="white" fill-opacity="0.25"/>
                           <rect x="17" y="43" width="20" height="18" rx="4" fill="white" fill-opacity="0.25"/>
                           <rect x="43" y="43" width="20" height="18" rx="4" fill="white" fill-opacity="0.35"/>
-                          <!-- 3D edge -->
                           <rect x="12" y="12" width="56" height="6" rx="10" fill="white" fill-opacity="0.2"/>
                           <rect x="12" y="12" width="6" height="56" rx="5" fill="white" fill-opacity="0.1"/>
                         </svg>
@@ -411,22 +143,14 @@
                               <stop offset="100%" stop-color="#1d4ed8"/>
                             </linearGradient>
                           </defs>
-                          <!-- Strap top -->
                           <rect x="30" y="4" width="20" height="14" rx="5" fill="#1e40af"/>
-                          <!-- Strap bottom -->
                           <rect x="30" y="62" width="20" height="14" rx="5" fill="#1e40af"/>
-                          <!-- Strap buckle lines -->
                           <line x1="33" y1="10" x2="47" y2="10" stroke="white" stroke-width="1.5" stroke-opacity="0.4"/>
                           <line x1="33" y1="68" x2="47" y2="68" stroke="white" stroke-width="1.5" stroke-opacity="0.4"/>
-                          <!-- Watch body -->
                           <rect x="18" y="18" width="44" height="44" rx="12" fill="url(#g-watch-body)"/>
-                          <!-- 3D highlight top -->
                           <rect x="18" y="18" width="44" height="8" rx="12" fill="white" fill-opacity="0.2"/>
-                          <!-- Side button -->
                           <rect x="62" y="32" width="5" height="10" rx="2" fill="#1e40af"/>
-                          <!-- Screen -->
                           <rect x="24" y="24" width="32" height="32" rx="7" fill="url(#g-watch-screen)"/>
-                          <!-- Clock hands -->
                           <circle cx="40" cy="40" r="12" fill="none" stroke="#1d4ed8" stroke-width="1.5" stroke-opacity="0.3"/>
                           <line x1="40" y1="40" x2="40" y2="31" stroke="#1d4ed8" stroke-width="2.5" stroke-linecap="round"/>
                           <line x1="40" y1="40" x2="47" y2="44" stroke="#1d4ed8" stroke-width="2" stroke-linecap="round"/>
@@ -448,21 +172,16 @@
                               <stop offset="100%" stop-color="#1e3a8a"/>
                             </linearGradient>
                           </defs>
-                          <!-- Arc band -->
                           <path d="M18 42 C18 22 62 22 62 42" stroke="url(#g-hp-arc)" stroke-width="7" fill="none" stroke-linecap="round"/>
-                          <!-- Band highlight -->
                           <path d="M20 40 C20 24 60 24 60 40" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-opacity="0.3"/>
-                          <!-- Left cup -->
                           <rect x="8" y="42" width="18" height="22" rx="9" fill="url(#g-hp-cup)"/>
                           <rect x="8" y="42" width="18" height="8" rx="9" fill="white" fill-opacity="0.2"/>
                           <ellipse cx="17" cy="53" rx="6" ry="7" fill="#1e40af"/>
                           <ellipse cx="17" cy="53" rx="3.5" ry="4.5" fill="#bfdbfe"/>
-                          <!-- Right cup -->
                           <rect x="54" y="42" width="18" height="22" rx="9" fill="url(#g-hp-cup)"/>
                           <rect x="54" y="42" width="18" height="8" rx="9" fill="white" fill-opacity="0.2"/>
                           <ellipse cx="63" cy="53" rx="6" ry="7" fill="#1e40af"/>
                           <ellipse cx="63" cy="53" rx="3.5" ry="4.5" fill="#bfdbfe"/>
-                          <!-- Shadow under cups -->
                           <ellipse cx="17" cy="65" rx="8" ry="2.5" fill="#1e3a8a" fill-opacity="0.3"/>
                           <ellipse cx="63" cy="65" rx="8" ry="2.5" fill="#1e3a8a" fill-opacity="0.3"/>
                         </svg>
@@ -486,27 +205,20 @@
                               <stop offset="100%" stop-color="#3b82f6"/>
                             </linearGradient>
                           </defs>
-                          <!-- Case body -->
                           <rect x="12" y="28" width="56" height="42" rx="14" fill="url(#g-eb-case)"/>
-                          <!-- Case lid (open) -->
                           <path d="M12 42 Q12 28 40 26 Q68 28 68 42 Z" fill="url(#g-eb-lid)"/>
                           <rect x="12" y="28" width="56" height="5" rx="5" fill="white" fill-opacity="0.25"/>
-                          <!-- Hinge line -->
                           <line x1="12" y1="42" x2="68" y2="42" stroke="white" stroke-width="1.5" stroke-opacity="0.3"/>
-                          <!-- Left earbud in case -->
                           <ellipse cx="28" cy="55" rx="10" ry="11" fill="url(#g-eb-bud)"/>
                           <ellipse cx="28" cy="55" rx="10" ry="4" fill="white" fill-opacity="0.15"/>
                           <ellipse cx="28" cy="52" rx="4" ry="4.5" fill="#1e3a8a"/>
                           <ellipse cx="28" cy="51.5" rx="2" ry="2.5" fill="#bfdbfe" fill-opacity="0.7"/>
-                          <!-- Right earbud in case -->
                           <ellipse cx="52" cy="55" rx="10" ry="11" fill="url(#g-eb-bud)"/>
                           <ellipse cx="52" cy="55" rx="10" ry="4" fill="white" fill-opacity="0.15"/>
                           <ellipse cx="52" cy="52" rx="4" ry="4.5" fill="#1e3a8a"/>
                           <ellipse cx="52" cy="51.5" rx="2" ry="2.5" fill="#bfdbfe" fill-opacity="0.7"/>
-                          <!-- Charging dots -->
                           <circle cx="38" cy="68" r="2" fill="white" fill-opacity="0.3"/>
                           <circle cx="42" cy="68" r="2" fill="white" fill-opacity="0.5"/>
-                          <!-- Shadow -->
                           <ellipse cx="40" cy="71" rx="22" ry="3" fill="#1e3a8a" fill-opacity="0.2"/>
                         </svg>
                         <span class="cat-label">Earbuds</span>
@@ -529,35 +241,25 @@
                               <stop offset="100%" stop-color="#1e40af"/>
                             </radialGradient>
                           </defs>
-                          <!-- Speaker body - pill shape -->
                           <rect x="8" y="25" width="64" height="34" rx="17" fill="url(#g-spk-body)"/>
-                          <!-- Top highlight -->
                           <rect x="8" y="25" width="64" height="10" rx="17" fill="white" fill-opacity="0.2"/>
-                          <!-- Mesh grille lines (left) -->
                           <line x1="14" y1="33" x2="14" y2="51" stroke="white" stroke-width="1.2" stroke-opacity="0.3"/>
                           <line x1="18" y1="31" x2="18" y2="53" stroke="white" stroke-width="1.2" stroke-opacity="0.3"/>
-                          <!-- Main woofer circle -->
                           <circle cx="40" cy="42" r="13" fill="url(#g-spk-woofer)"/>
                           <circle cx="40" cy="42" r="13" stroke="white" stroke-width="1.5" stroke-opacity="0.2" fill="none"/>
-                          <!-- Woofer rings -->
                           <circle cx="40" cy="42" r="10" stroke="#3b82f6" stroke-width="1.5" fill="none" stroke-opacity="0.5"/>
                           <circle cx="40" cy="42" r="7" stroke="#60a5fa" stroke-width="1.5" fill="none" stroke-opacity="0.4"/>
                           <circle cx="40" cy="42" r="4" fill="#3b82f6"/>
                           <circle cx="40" cy="42" r="2" fill="#bfdbfe"/>
-                          <!-- Mesh grille lines (right) -->
                           <line x1="62" y1="33" x2="62" y2="51" stroke="white" stroke-width="1.2" stroke-opacity="0.3"/>
                           <line x1="66" y1="31" x2="66" y2="53" stroke="white" stroke-width="1.2" stroke-opacity="0.3"/>
-                          <!-- Small tweeter left -->
                           <circle cx="20" cy="42" r="5" fill="#1e40af"/>
                           <circle cx="20" cy="42" r="3" fill="#3b82f6"/>
                           <circle cx="20" cy="42" r="1.5" fill="#93c5fd"/>
-                          <!-- Small tweeter right -->
                           <circle cx="60" cy="42" r="5" fill="#1e40af"/>
                           <circle cx="60" cy="42" r="3" fill="#3b82f6"/>
                           <circle cx="60" cy="42" r="1.5" fill="#93c5fd"/>
-                          <!-- BT symbol on top -->
                           <text x="35" y="23" font-size="9" fill="white" fill-opacity="0.7" font-family="sans-serif" font-weight="bold">&#x1F4F6;</text>
-                          <!-- Shadow -->
                           <ellipse cx="40" cy="62" rx="28" ry="4" fill="#1e3a8a" fill-opacity="0.25"/>
                         </svg>
                         <span class="cat-label">Speakers</span>
@@ -567,7 +269,11 @@
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="products-grid">
-                <!-- Products rendered here -->
+                <!-- Products will be loaded here from JSON -->
+                <div class="col-span-3 text-center py-16">
+                    <div class="loader"></div>
+                    <p class="text-gray-400 mt-4">Loading products...</p>
+                </div>
             </div>
         </section>
 
@@ -803,38 +509,34 @@
 
     <script>
         const app = {
-            products: [
-                {
-                    name: "Automatic Watch",
-                    price: 3200,
-                    original: 5000,
-                    category: "smartwatch",
-                    desc: "Super quality ⌚",
-                    image: "https://image2url.com/r2/default/images/1773172707014-eb696fba-a6a0-46c1-a9ff-39692f2c68d4.jpg"
-                },
-                {
-                    name: "Trigger Gaming Earbuds",
-                    price: 850,
-                    original: 999,
-                    category: "earbuds",
-                    desc: "Premium quality 🚀",
-                    image: "https://image2url.com/r2/default/images/1773172889731-53f03f2e-c020-4ab1-86cf-36563754db36.jpg"
-                },
-                {
-                    name: "Gen 9 Watch",
-                    price: 850,
-                    original: 1200,
-                    category: "smartwatch",
-                    desc: "Super quality women's watch 🔥⌚",
-                    image: "https://i.ibb.co/HLMQqCmg/464ba99a4d93.png"
-                }
-            ],
-
+            products: [],              // Will be filled from JSON
             cart: [],
             currentStep: 1,
+            productsJsonUrl: 'https://muzzammil1704-droid.github.io/Ramnad_gedgets/products.json', // Update if file name differs
 
-            init() {
+            async init() {
+                await this.fetchProducts();
                 this.renderProducts();
+                this.updateCartBadge();
+            },
+
+            async fetchProducts() {
+                try {
+                    const response = await fetch(this.productsJsonUrl);
+                    if (!response.ok) throw new Error('Failed to load products');
+                    this.products = await response.json();
+                } catch (error) {
+                    console.error('Error loading products:', error);
+                    this.products = []; // Fallback to empty
+                    document.getElementById('products-grid').innerHTML = `
+                        <div class="col-span-3 text-center py-16">
+                            <div class="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-exclamation-triangle text-3xl text-red-300"></i>
+                            </div>
+                            <p class="text-gray-500 mb-2">Failed to load products.</p>
+                            <button onclick="app.fetchProducts()" class="text-blue-600 underline">Retry</button>
+                        </div>`;
+                }
             },
 
             formatPrice(price) {
@@ -859,6 +561,16 @@
                     products = this.products.filter(p => p.category === filter);
                 }
 
+                if (this.products.length === 0) {
+                    // Still loading or empty
+                    grid.innerHTML = `
+                        <div class="col-span-3 text-center py-16">
+                            <div class="loader"></div>
+                            <p class="text-gray-400 mt-4">Loading products...</p>
+                        </div>`;
+                    return;
+                }
+
                 if (products.length === 0) {
                     grid.innerHTML = `
                         <div class="col-span-3 text-center py-16">
@@ -871,9 +583,10 @@
                     return;
                 }
 
-                grid.innerHTML = products.map((product) => {
+                grid.innerHTML = products.map((product, idx) => {
+                    // Find real index in full products array for cart operations
+                    const realIndex = this.products.findIndex(p => p.name === product.name && p.price === product.price); // crude match
                     const discount = Math.round(((product.original - product.price) / product.original) * 100);
-                    const realIndex = this.products.indexOf(product);
                     return `
                     <div class="product-card group" onclick="app.showProductDetail(${realIndex})">
                         <div class="product-image-container">
@@ -1174,3 +887,13 @@
     </script>
 </body>
 </html>
+```
+
+✅ Steps to make it work
+
+1. Save the HTML – Copy the above code and save it as index.html (or replace your current HTML file).
+2. Create style.css – In the same folder, create a file named style.css and paste the CSS code I provided in the previous answer.
+3. Create products.json – Make sure you have a products.json file with your product data in the root folder (as discussed earlier).
+4. Upload to GitHub – Commit both index.html, style.css, and products.json to your Ramnad_gedgets repository.
+
+Now your site will load the CSS externally, making it cleaner and easier to maintain. Let me know if you face any issues!
