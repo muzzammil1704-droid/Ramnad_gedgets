@@ -1,10 +1,9 @@
- 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RAMNADGADGETS</title>
+    <title>RAMNAD GADGETS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -633,6 +632,9 @@
                         <button id="modal-add-to-cart" class="btn-primary w-full flex items-center justify-center gap-2 py-4 text-lg">
                             <i class="fas fa-cart-plus"></i> Add to Cart
                         </button>
+                        <button id="modal-whatsapp-enquire" class="whatsapp-btn w-full flex items-center justify-center gap-2 py-4 text-lg rounded-xl font-semibold hover:shadow-lg transition-all">
+                            <i class="fab fa-whatsapp text-2xl"></i> Enquire on WhatsApp
+                        </button>
                         <div class="flex gap-4 text-sm text-gray-500 justify-center pt-2">
                             <span class="flex items-center gap-1"><i class="fas fa-truck text-blue-400"></i> Free Shipping</span>
                             <span class="flex items-center gap-1"><i class="fas fa-undo text-orange-400"></i> 7 Days Return</span>
@@ -788,32 +790,55 @@
 
     <script>
         const app = {
-            products: [],              // Will be filled from JSON
+            products: [],
             cart: [],
             currentStep: 1,
-            productsJsonUrl: 'https://muzzammil1704-droid.github.io/Ramnad_gedgets/products.json', // Update if file name differs
+            currentCategory: 'all',
+            
+            // Base URL for JSON files (update this to match your GitHub Pages URL)
+            baseUrl: '',
+            
+            // JSON file mapping
+            jsonFiles: {
+                all: 'all.json',
+                smartwatch: 'smartwatches.json',
+                earbuds: 'earbuds.json',
+                headphone: 'headphones.json',
+                speaker: 'speakers.json'
+            },
 
             async init() {
-                await this.fetchProducts();
-                this.renderProducts();
+                await this.fetchProducts('all');
                 this.updateCartBadge();
             },
 
-            async fetchProducts() {
+            async fetchProducts(category) {
+                const grid = document.getElementById('products-grid');
+                grid.innerHTML = `
+                    <div class="col-span-3 text-center py-16">
+                        <div class="loader"></div>
+                        <p class="text-gray-400 mt-4">Loading products...</p>
+                    </div>`;
+
                 try {
-                    const response = await fetch(this.productsJsonUrl);
+                    const fileName = this.jsonFiles[category] || this.jsonFiles.all;
+                    const response = await fetch(this.baseUrl + fileName);
+                    
                     if (!response.ok) throw new Error('Failed to load products');
-                    this.products = await response.json();
+                    
+                    const data = await response.json();
+                    this.products = data;
+                    this.currentCategory = category;
+                    this.renderProducts(category);
                 } catch (error) {
                     console.error('Error loading products:', error);
-                    this.products = []; // Fallback to empty
-                    document.getElementById('products-grid').innerHTML = `
+                    grid.innerHTML = `
                         <div class="col-span-3 text-center py-16">
                             <div class="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
                                 <i class="fas fa-exclamation-triangle text-3xl text-red-300"></i>
                             </div>
                             <p class="text-gray-500 mb-2">Failed to load products.</p>
-                            <button onclick="app.fetchProducts()" class="text-blue-600 underline">Retry</button>
+                            <button onclick="app.fetchProducts('${category}')" class="text-blue-600 underline">Retry</button>
                         </div>`;
                 }
             },
@@ -822,35 +847,10 @@
                 return '₹' + price.toLocaleString('en-IN');
             },
 
-            getCategoryIcon(category) {
-                const icons = {
-                    'smartwatch': '<i class="fas fa-clock text-blue-500"></i>',
-                    'earbuds': '<i class="fas fa-headphones text-pink-500"></i>',
-                    'headphone': '<i class="fas fa-headphones-alt text-blue-500"></i>',
-                    'speaker': '<i class="fas fa-volume-up text-green-500"></i>',
-                    'default': '<i class="fas fa-tag text-purple-500"></i>'
-                };
-                return icons[category] || icons['default'];
-            },
-
             renderProducts(filter = 'all') {
                 const grid = document.getElementById('products-grid');
-                let products = this.products;
-                if (filter !== 'all') {
-                    products = this.products.filter(p => p.category === filter);
-                }
-
+                
                 if (this.products.length === 0) {
-                    // Still loading or empty
-                    grid.innerHTML = `
-                        <div class="col-span-3 text-center py-16">
-                            <div class="loader"></div>
-                            <p class="text-gray-400 mt-4">Loading products...</p>
-                        </div>`;
-                    return;
-                }
-
-                if (products.length === 0) {
                     grid.innerHTML = `
                         <div class="col-span-3 text-center py-16">
                             <div class="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -862,18 +862,16 @@
                     return;
                 }
 
-                grid.innerHTML = products.map((product, idx) => {
-                    // Find real index in full products array for cart operations
-                    const realIndex = this.products.findIndex(p => p.name === product.name && p.price === product.price); // crude match
+                grid.innerHTML = this.products.map((product, idx) => {
                     const discount = Math.round(((product.original - product.price) / product.original) * 100);
                     return `
-                    <div class="product-card group" onclick="app.showProductDetail(${realIndex})">
+                    <div class="product-card group" onclick="app.showProductDetail(${idx})">
                         <div class="product-image-container">
                             <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://via.placeholder.com/400x400/f1f5f9/64748b?text=${encodeURIComponent(product.name)}'">
                             <div class="discount-float">
                                 <i class="fas fa-tags"></i> -${discount}% OFF
                             </div>
-                            <button onclick="event.stopPropagation(); app.addToCart(${realIndex})" class="add-to-cart-btn">
+                            <button onclick="event.stopPropagation(); app.addToCart(${idx})" class="add-to-cart-btn">
                                 <i class="fas fa-cart-plus"></i> Add to Cart
                             </button>
                         </div>
@@ -891,7 +889,7 @@
                                     <span class="text-xl font-bold text-blue-600">${this.formatPrice(product.price)}</span>
                                     <span class="text-sm text-gray-400 line-through ml-2">${this.formatPrice(product.original)}</span>
                                 </div>
-                                <button onclick="event.stopPropagation(); app.addToCart(${realIndex})" class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all">
+                                <button onclick="event.stopPropagation(); app.addToCart(${idx})" class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all">
                                     <i class="fas fa-plus"></i>
                                 </button>
                             </div>
@@ -903,6 +901,7 @@
             showProductDetail(index) {
                 const product = this.products[index];
                 const discount = Math.round(((product.original - product.price) / product.original) * 100);
+                
                 document.getElementById('modal-product-image').src = product.image;
                 document.getElementById('modal-product-category').textContent = product.category;
                 document.getElementById('modal-product-name').textContent = product.name;
@@ -910,11 +909,23 @@
                 document.getElementById('modal-product-price').textContent = this.formatPrice(product.price);
                 document.getElementById('modal-product-original').textContent = this.formatPrice(product.original);
                 document.getElementById('modal-product-discount').textContent = `-${discount}% OFF`;
-                document.getElementById('modal-add-to-cart').onclick = () => { this.addToCart(index); this.closeProductModal(); };
+                
+                document.getElementById('modal-add-to-cart').onclick = () => { 
+                    this.addToCart(index); 
+                    this.closeProductModal(); 
+                };
+                
+                document.getElementById('modal-whatsapp-enquire').onclick = () => {
+                    this.enquireWhatsApp(product);
+                };
+                
                 const modal = document.getElementById('product-modal');
                 const content = modal.querySelector('.modal-content');
                 modal.classList.remove('hidden');
-                setTimeout(() => { content.classList.remove('scale-95', 'opacity-0'); content.classList.add('scale-100', 'opacity-100'); }, 10);
+                setTimeout(() => { 
+                    content.classList.remove('scale-95', 'opacity-0'); 
+                    content.classList.add('scale-100', 'opacity-100'); 
+                }, 10);
             },
 
             closeProductModal() {
@@ -925,10 +936,20 @@
                 setTimeout(() => modal.classList.add('hidden'), 300);
             },
 
+            enquireWhatsApp(product) {
+                const message = `Hi, I'm interested in this product:%0A%0A*${product.name}*%0ACategory: ${product.category}%0APrice: ${this.formatPrice(product.price)}%0AOriginal: ${this.formatPrice(product.original)}%0A%0ACan you provide more details?`;
+                window.open(`https://wa.me/917092427154?text=${message}`, '_blank');
+                this.showToast('Opening WhatsApp...');
+            },
+
             addToCart(index) {
                 const product = this.products[index];
                 const existing = this.cart.find(item => item.name === product.name);
-                if (existing) { existing.quantity++; } else { this.cart.push({ ...product, quantity: 1 }); }
+                if (existing) { 
+                    existing.quantity++; 
+                } else { 
+                    this.cart.push({ ...product, quantity: 1 }); 
+                }
                 this.updateCartBadge();
                 this.showToast(`${product.name} added to cart`);
             },
@@ -936,12 +957,19 @@
             updateCartBadge() {
                 const count = this.cart.reduce((sum, item) => sum + item.quantity, 0);
                 const badge = document.getElementById('cart-badge');
-                if (count > 0) { badge.textContent = count; badge.classList.remove('hidden'); }
-                else { badge.classList.add('hidden'); }
+                if (count > 0) { 
+                    badge.textContent = count; 
+                    badge.classList.remove('hidden'); 
+                } else { 
+                    badge.classList.add('hidden'); 
+                }
             },
 
             showCart() {
-                if (this.cart.length === 0) { this.showToast('Your cart is empty'); return; }
+                if (this.cart.length === 0) { 
+                    this.showToast('Your cart is empty'); 
+                    return; 
+                }
                 this.openCheckout();
             },
 
@@ -952,7 +980,10 @@
                 const overlay = document.getElementById('checkout-overlay');
                 const content = document.getElementById('checkout-content');
                 overlay.classList.remove('hidden');
-                setTimeout(() => { content.classList.remove('scale-95', 'opacity-0'); content.classList.add('scale-100', 'opacity-100'); }, 10);
+                setTimeout(() => { 
+                    content.classList.remove('scale-95', 'opacity-0'); 
+                    content.classList.add('scale-100', 'opacity-100'); 
+                }, 10);
             },
 
             closeCheckout() {
@@ -969,6 +1000,7 @@
                 const summary = document.getElementById('cart-summary');
                 const continueBtn = document.getElementById('continue-btn');
                 const countEl = document.getElementById('cart-item-count');
+                
                 if (this.cart.length === 0) {
                     container.innerHTML = '';
                     emptyMsg.classList.remove('hidden');
@@ -977,12 +1009,16 @@
                     countEl.textContent = '0 items';
                     return;
                 }
+                
                 emptyMsg.classList.add('hidden');
                 summary.classList.remove('hidden');
                 continueBtn.classList.remove('hidden');
+                
                 const totalItems = this.cart.reduce((sum, item) => sum + item.quantity, 0);
                 countEl.textContent = `${totalItems} item${totalItems > 1 ? 's' : ''}`;
+                
                 const subtotal = this.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                
                 container.innerHTML = this.cart.map((item, idx) => `
                     <div class="flex items-center gap-4 p-3 bg-gray-50 rounded-xl">
                         <img src="${item.image}" class="w-16 h-16 rounded-lg object-cover bg-gray-100">
@@ -1000,6 +1036,7 @@
                             <button onclick="app.removeItem(${idx})" class="text-xs text-red-500 hover:text-red-700 mt-1">Remove</button>
                         </div>
                     </div>`).join('');
+                    
                 document.getElementById('checkout-subtotal').textContent = this.formatPrice(subtotal);
                 document.getElementById('checkout-total').textContent = this.formatPrice(subtotal);
             },
@@ -1033,8 +1070,13 @@
                         el.classList.add('completed');
                         el.innerHTML = '<i class="fas fa-check text-sm"></i>';
                         if (document.getElementById(`progress-${i}`)) document.getElementById(`progress-${i}`).style.width = '100%';
-                    } else if (i === this.currentStep) { el.classList.add('active'); el.textContent = i; }
-                    else { el.classList.add('pending'); el.textContent = i; }
+                    } else if (i === this.currentStep) { 
+                        el.classList.add('active'); 
+                        el.textContent = i; 
+                    } else { 
+                        el.classList.add('pending'); 
+                        el.textContent = i; 
+                    }
                 });
             },
 
@@ -1047,16 +1089,19 @@
                 const pincode = document.getElementById('addr-pincode').value;
                 const state = document.getElementById('addr-state').value;
                 const notes = document.getElementById('addr-notes').value;
+                
                 document.getElementById('confirm-address').innerHTML = `
                     <p class="font-semibold">${name}</p><p>${phone}</p>${email ? `<p>${email}</p>` : ''}
                     <p class="mt-2">${street}</p><p>${city}, ${state} - ${pincode}</p>
                     ${notes ? `<p class="mt-2 italic">Note: ${notes}</p>` : ''}`;
+                    
                 const container = document.getElementById('confirm-items');
                 container.innerHTML = this.cart.map(item => `
                     <div class="flex justify-between py-2 border-b border-gray-100">
                         <span>${item.name} × ${item.quantity}</span>
                         <span class="font-medium">${this.formatPrice(item.price * item.quantity)}</span>
                     </div>`).join('');
+                    
                 const total = this.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
                 document.getElementById('confirm-total').textContent = this.formatPrice(total);
             },
@@ -1070,25 +1115,36 @@
                 const pincode = document.getElementById('addr-pincode').value;
                 const state = document.getElementById('addr-state').value;
                 const notes = document.getElementById('addr-notes').value;
+                
                 let message = `*New Order - RAMNADGADGETS*%0A%0A*Customer:*%0AName: ${name}%0APhone: ${phone}%0A`;
                 if (email) message += `Email: ${email}%0A`;
                 message += `%0A*Delivery Address:*%0A${street}%0A${city}, ${state} - ${pincode}%0A`;
                 if (notes) message += `%0ANote: ${notes}%0A`;
                 message += `%0A*Order Items:*%0A`;
+                
                 this.cart.forEach((item, i) => {
                     message += `${i+1}. ${item.name}%0A   Qty: ${item.quantity} | ${this.formatPrice(item.price)} each%0A   Subtotal: ${this.formatPrice(item.price * item.quantity)}%0A%0A`;
                 });
+                
                 const total = this.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
                 message += `*Total: ${this.formatPrice(total)}*%0APayment: Cash on Delivery`;
+                
                 window.open(`https://wa.me/917092427154?text=${message}`, '_blank');
                 this.showToast('Opening WhatsApp...');
-                setTimeout(() => { this.cart = []; this.updateCartBadge(); this.closeCheckout(); this.showToast('Order sent!'); }, 2000);
+                
+                setTimeout(() => { 
+                    this.cart = []; 
+                    this.updateCartBadge(); 
+                    this.closeCheckout(); 
+                    this.showToast('Order sent!'); 
+                }, 2000);
             },
 
             showModal(type) {
                 const content = document.getElementById('modal-content');
                 const overlay = document.getElementById('modal-overlay');
                 let html = '';
+                
                 if (type === 'search') {
                     html = `<div class="flex justify-between items-center mb-4"><h3 class="font-heading text-xl font-bold">Search Products</h3><button onclick="app.closeModal()" class="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center"><i class="fas fa-times"></i></button></div>
                     <div class="relative mb-4"><input type="text" class="form-input pl-10" placeholder="Search products..." onkeyup="app.handleSearch(this.value)"><i class="fas fa-search absolute left-4 top-3.5 text-gray-400"></i></div>
@@ -1096,7 +1152,7 @@
                 } else if (type === 'menu') {
                     html = `<div class="flex justify-between items-center mb-6"><h3 class="font-heading text-xl font-bold">Menu</h3><button onclick="app.closeModal()" class="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center"><i class="fas fa-times"></i></button></div>
                     <nav class="space-y-2">
-                        <a href="#" onclick="app.closeModal(); app.scrollToProducts()" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors"><span class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center"><i class="fas fa-home text-purple-600"></i></span> Home</a>
+                        <a href="#" onclick="app.closeModal(); app.goHome()" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors"><span class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center"><i class="fas fa-home text-purple-600"></i></span> Home</a>
                         <a href="#" onclick="app.closeModal(); app.filterCategory('smartwatch')" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors"><span class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center"><i class="fas fa-clock text-blue-600"></i></span> Smart Watches</a>
                         <a href="#" onclick="app.closeModal(); app.filterCategory('headphone')" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors"><span class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center"><i class="fas fa-headphones-alt text-blue-600"></i></span> Headphones</a>
                         <a href="#" onclick="app.closeModal(); app.filterCategory('earbuds')" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors"><span class="w-10 h-10 bg-pink-100 rounded-full flex items-center justify-center"><i class="fas fa-headphones text-pink-600"></i></span> Earbuds</a>
@@ -1108,9 +1164,13 @@
                     html = `<div class="flex justify-between items-center mb-4"><h3 class="font-heading text-xl font-bold">My Orders</h3><button onclick="app.closeModal()" class="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center"><i class="fas fa-times"></i></button></div>
                     <div class="text-center py-8 text-gray-400"><div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4"><i class="fas fa-box text-3xl text-gray-300"></i></div><p>No orders yet.</p><button onclick="app.closeModal(); app.scrollToProducts()" class="mt-4 text-blue-600 font-medium hover:underline">Browse Products</button></div>`;
                 }
+                
                 content.innerHTML = html;
                 overlay.classList.remove('hidden');
-                setTimeout(() => { content.classList.remove('scale-95', 'opacity-0'); content.classList.add('scale-100', 'opacity-100'); }, 10);
+                setTimeout(() => { 
+                    content.classList.remove('scale-95', 'opacity-0'); 
+                    content.classList.add('scale-100', 'opacity-100'); 
+                }, 10);
             },
 
             closeModal() {
@@ -1123,9 +1183,18 @@
 
             handleSearch(query) {
                 const results = document.getElementById('search-results');
-                if (!query.trim()) { results.innerHTML = ''; return; }
+                if (!query.trim()) { 
+                    results.innerHTML = ''; 
+                    return; 
+                }
+                
                 const filtered = this.products.filter(p => p.name.toLowerCase().includes(query.toLowerCase()));
-                if (filtered.length === 0) { results.innerHTML = '<p class="text-center text-gray-400 py-4">No products found</p>'; return; }
+                
+                if (filtered.length === 0) { 
+                    results.innerHTML = '<p class="text-center text-gray-400 py-4">No products found</p>'; 
+                    return; 
+                }
+                
                 results.innerHTML = filtered.map(p => {
                     const idx = this.products.indexOf(p);
                     return `<div class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 cursor-pointer transition-colors" onclick="app.closeModal(); app.showProductDetail(${idx})">
@@ -1136,7 +1205,7 @@
             },
 
             filterCategory(cat) {
-                this.renderProducts(cat);
+                this.fetchProducts(cat);
                 document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
                 const map = { all: 'btn-all', smartwatch: 'btn-smartwatch', headphone: 'btn-headphone', earbuds: 'btn-earbuds', speaker: 'btn-speaker' };
                 if (map[cat]) document.getElementById(map[cat]).classList.add('active');
@@ -1161,7 +1230,11 @@
 
         document.addEventListener('DOMContentLoaded', () => app.init());
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') { app.closeModal(); app.closeProductModal(); app.closeCheckout(); }
+            if (e.key === 'Escape') { 
+                app.closeModal(); 
+                app.closeProductModal(); 
+                app.closeCheckout(); 
+            }
         });
     </script>
 </body>
