@@ -1,5 +1,16 @@
 [
   {
+    "id": "1777485646698",
+    "name": "Urban earbuds",
+    "category": "earbuds",
+    "price": 5000,
+    "original": 60000,
+    "desc": "✨ Active noise canceling, 30hr battery, IPX5 waterproof",
+    "image": "https://ik.imagekit.io/e9w05dj10/Screenrecorder-2025-02-15-11-22-43-221.mp4",
+    "createdAt": "2026-04-29T18:00:46.698Z",
+    "updatedAt": "2026-04-29T18:00:46.698Z"
+  },
+  {
     "id": "1777478900130",
     "name": "Realme earbuds and neckband",
     "category": "earbuds",
