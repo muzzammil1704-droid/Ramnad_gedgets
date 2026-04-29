@@ -314,6 +314,57 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        /* Video styles */
+        .product-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: #000;
+        }
+        
+        .video-play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .video-container:hover .video-play-icon {
+            opacity: 1;
+        }
+        
+        .video-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
     </style>
 </head>
 <body class="antialiased min-h-screen">
@@ -604,9 +655,9 @@
     <div id="product-modal" class="fixed inset-0 z-50 hidden modal-overlay flex items-center justify-center p-4" onclick="app.closeProductModal()">
         <div class="modal-content w-full max-w-2xl max-h-[90vh] overflow-y-auto transform scale-95 opacity-0 transition-all duration-300" onclick="event.stopPropagation()">
             <div class="grid md:grid-cols-2 gap-0">
-                <div class="relative aspect-square bg-gray-100">
-                    <img id="modal-product-image" src="" class="w-full h-full object-cover" alt="">
-                    <button onclick="app.closeProductModal()" class="absolute top-4 right-4 w-10 h-10 bg-white/90 rounded-full flex items-center justify-center shadow-lg hover:bg-white transition-colors md:hidden">
+                <div class="relative aspect-square bg-gray-100" id="modal-media-container">
+                    <!-- Video or Image will be inserted here -->
+                    <button onclick="app.closeProductModal()" class="absolute top-4 right-4 w-10 h-10 bg-white/90 rounded-full flex items-center justify-center shadow-lg hover:bg-white transition-colors md:hidden z-20">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
@@ -795,10 +846,8 @@
             currentStep: 1,
             currentCategory: 'all',
             
-            // Base URL for JSON files (update this to match your GitHub Pages URL)
             baseUrl: '',
             
-            // JSON file mapping
             jsonFiles: {
                 all: 'all.json',
                 smartwatch: 'smartwatches.json',
@@ -864,10 +913,26 @@
 
                 grid.innerHTML = this.products.map((product, idx) => {
                     const discount = Math.round(((product.original - product.price) / product.original) * 100);
+                    const hasVideo = product.video ? true : false;
+                    
                     return `
                     <div class="product-card group" onclick="app.showProductDetail(${idx})">
                         <div class="product-image-container">
-                            <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://via.placeholder.com/400x400/f1f5f9/64748b?text=${encodeURIComponent(product.name)}'">
+                            ${hasVideo ? `
+                                <div class="video-container">
+                                    <video class="product-video" muted loop playsinline preload="metadata" onmouseover="this.play()" onmouseout="this.pause()">
+                                        <source src="${product.video}" type="video/mp4">
+                                    </video>
+                                    <div class="video-badge">
+                                        <i class="fas fa-video"></i> VIDEO
+                                    </div>
+                                    <div class="video-play-icon">
+                                        <i class="fas fa-play text-blue-600 text-xl"></i>
+                                    </div>
+                                </div>
+                            ` : `
+                                <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://via.placeholder.com/400x400/f1f5f9/64748b?text=${encodeURIComponent(product.name)}'">
+                            `}
                             <div class="discount-float">
                                 <i class="fas fa-tags"></i> -${discount}% OFF
                             </div>
@@ -902,7 +967,31 @@
                 const product = this.products[index];
                 const discount = Math.round(((product.original - product.price) / product.original) * 100);
                 
-                document.getElementById('modal-product-image').src = product.image;
+                // Media container - Video or Image
+                const mediaContainer = document.getElementById('modal-media-container');
+                const hasVideo = product.video ? true : false;
+                
+                if (hasVideo) {
+                    mediaContainer.innerHTML = `
+                        <div class="video-container h-full">
+                            <video class="product-video" autoplay muted loop playsinline controls>
+                                <source src="${product.video}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                            <button onclick="app.closeProductModal()" class="absolute top-4 right-4 w-10 h-10 bg-white/90 rounded-full flex items-center justify-center shadow-lg hover:bg-white transition-colors md:hidden z-20">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    `;
+                } else {
+                    mediaContainer.innerHTML = `
+                        <img id="modal-product-image" src="${product.image}" class="w-full h-full object-cover" alt="${product.name}" onerror="this.src='https://via.placeholder.com/400x400/f1f5f9/64748b?text=${encodeURIComponent(product.name)}'">
+                        <button onclick="app.closeProductModal()" class="absolute top-4 right-4 w-10 h-10 bg-white/90 rounded-full flex items-center justify-center shadow-lg hover:bg-white transition-colors md:hidden z-20">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                }
+                
                 document.getElementById('modal-product-category').textContent = product.category;
                 document.getElementById('modal-product-name').textContent = product.name;
                 document.getElementById('modal-product-desc').textContent = product.desc;
@@ -933,7 +1022,12 @@
                 const content = modal.querySelector('.modal-content');
                 content.classList.remove('scale-100', 'opacity-100');
                 content.classList.add('scale-95', 'opacity-0');
-                setTimeout(() => modal.classList.add('hidden'), 300);
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    // Stop any playing videos
+                    const videos = modal.querySelectorAll('video');
+                    videos.forEach(v => v.pause());
+                }, 300);
             },
 
             enquireWhatsApp(product) {
