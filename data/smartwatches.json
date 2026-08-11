@@ -1,0 +1,80 @@
+[
+  {
+    "name": "Noise ColorFit Ultra 3",
+    "category": "Smart Watch",
+    "desc": "1.96\" AMOLED Display, Bluetooth Calling, 100+ Sports Modes",
+    "price": 2999,
+    "original": 5999,
+    "image": "images/noise-colorfit.jpg",
+    "video": null
+  },
+  {
+    "name": "Fire-Boltt Ninja Call Pro",
+    "category": "Smart Watch",
+    "desc": "1.83\" Display, Bluetooth Calling, SpO2, Heart Rate",
+    "price": 1499,
+    "original": 9999,
+    "image": "images/fireboltt-ninja.jpg",
+    "video": null
+  },
+  {
+    "name": "Noise Pulse 2 Max",
+    "category": "Smart Watch",
+    "desc": "1.85\" Display, Bluetooth Calling, 100 Sports Modes",
+    "price": 1799,
+    "original": 6999,
+    "image": "images/noise-pulse.jpg",
+    "video": null
+  },
+  {
+    "name": "beatXP Vega Neo",
+    "category": "Smart Watch",
+    "desc": "1.43\" Super AMOLED, BT Calling, IP68, 100+ Sports Modes, 7 Days Battery",
+    "price": 1150,
+    "original": 7999,
+    "image": "images/beatxp-vega-1.jpg",
+    "video": null,
+    "images": [
+      "images/beatxp-vega-1.jpg",
+      "images/beatxp-vega-2.jpg",
+      "images/beatxp-vega-3.jpg",
+      "images/beatxp-vega-4.jpg",
+      "images/beatxp-vega-5.jpg",
+      "images/beatxp-vega-6.jpg"
+    ]
+  },
+  {
+    "name": "NoiseFit Halo",
+    "category": "Smart Watch",
+    "desc": "1.43\" AMOLED, Always On Display, BT Calling, 7 Days Battery, Health Suite",
+    "price": 1500,
+    "original": 7999,
+    "image": "images/noisefit-halo-1.jpg",
+    "images": [
+      "images/noisefit-halo-1.jpg",
+      "images/noisefit-halo-2.jpg",
+      "images/noisefit-halo-3.jpg",
+      "images/noisefit-halo-4.jpg",
+      "images/noisefit-halo-5.jpg",
+      "images/noisefit-halo-6.jpg"
+    ],
+    "video": null
+  },
+  {
+    "name": "Noise Evolve 3",
+    "category": "Smart Watch",
+    "desc": "1.43\" AMOLED Always On, BT Calling, 7 Days Battery, 100 Sports Modes, Health Suite",
+    "price": 1600,
+    "original": 6999,
+    "image": "images/noise-evolve3-1.jpg",
+    "images": [
+      "images/noise-evolve3-1.jpg",
+      "images/noise-evolve3-2.jpg",
+      "images/noise-evolve3-3.jpg",
+      "images/noise-evolve3-4.jpg",
+      "images/noise-evolve3-5.jpg",
+      "images/noise-evolve3-6.jpg"
+    ],
+    "video": null
+  }
+]
