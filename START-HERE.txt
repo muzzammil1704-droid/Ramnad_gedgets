@@ -1,0 +1,36 @@
+========================================
+  RAMNAD GADGETS - HOW TO RUN
+========================================
+
+1. Extract this zip
+
+2. Open the folder named "ramnad-gadgets"
+
+3. Inside that folder you must see:
+   - index.html
+   - data (folder)
+   - images (folder)
+   - js (folder)
+   - css (folder)
+
+4. Open Terminal / Command Prompt INSIDE the "ramnad-gadgets" folder
+
+5. Run this command:
+
+   python -m http.server 8000
+
+   (If python not found, try: python3 -m http.server 8000)
+
+6. Open browser and go to:
+
+   http://127.0.0.1:8000
+
+Products will load.
+
+========================================
+IMPORTANT
+========================================
+- Do NOT open index.html directly (double click)
+- Must run the server from inside ramnad-gadgets folder
+- If still "Loading products...", clear browser cache or use Incognito
+
